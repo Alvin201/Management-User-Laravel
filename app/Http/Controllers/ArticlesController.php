@@ -21,7 +21,6 @@ class ArticlesController extends Controller {
     }
 
     public function index() {
-
         $judul = 'Manage Article';
         $articles = Article::orderBy('published_at','desc')->paginate(10);
         return view('articles.index', compact('articles','judul'));
@@ -35,10 +34,8 @@ class ArticlesController extends Controller {
 
 
     public function store(Requests\ArticleRequest $request) {
-
         $request['users_id'] = Auth::id();
         Article::create($request->all());
-
         Session::flash('flash_message', 'Article has been created!');
         return redirect('articles');
     }
@@ -46,7 +43,6 @@ class ArticlesController extends Controller {
     public function edit($id) {
         $judul = 'Edit Article';
         $article = Article::where_all($id);
-
         $provinsi = DB::table("provinsi")->pluck("name","id");
         return view('articles.edit', compact('article','provinsi','judul'));
     }
@@ -54,9 +50,7 @@ class ArticlesController extends Controller {
     public function update($id, Requests\ArticleRequest $request) {
         $article = Article::findOrFail($id);
         $article->update($request->all());
-
         Session::flash('flash_message', 'Article has been updated!');
-
         return redirect('articles');
     }
 
